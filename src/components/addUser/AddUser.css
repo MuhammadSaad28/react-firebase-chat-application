@@ -1,0 +1,104 @@
+.addUser{
+    width: max-content;
+    height: max-content;
+    padding: 30px;
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform 0.6s ease-in-out;
+}
+
+.addUser form{
+    display: flex;
+    justify-content: space-between;
+}
+
+.addUser form input{
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.addUser form input:focus{
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.addUser form button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.addUser form button:focus{
+    outline: none;
+}
+
+.addUser form button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.addUser form button img{
+    width: 20px;
+    height: 20px;
+}
+
+.addUser .users{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.addUser .users .user{
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-start; */
+    gap: 5px;
+}
+
+.addUser .users .user span{
+    color: white;
+}
+
+.addUser .users .user img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.addUser .users button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.addUser .users button:focus{
+    outline: none;
+}
+
+.addUser .users button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.addUser .users button img{
+    width: 20px;
+    height: 20px;
+}

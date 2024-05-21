@@ -1,0 +1,365 @@
+.chat{
+    flex: 2;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat .top{
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.chat .top .user{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.chat .top .user img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chat .top .user .user-detail{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat .top .user .user-detail h2{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.chat .top .user .user-detail p{
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.chat .top .icons{
+    display: flex;
+    gap: 20px;
+}
+
+.chat .top .icons img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.center{
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.center::-webkit-scrollbar{
+    width: 5px;
+}
+
+.center::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.center::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+
+.center .date-label{
+    text-align: center;
+}
+
+.center .message{
+    margin-bottom: 20px;
+    max-width: 60%;
+    position: relative;
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+
+
+
+.center .message .content img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.center .message .content{
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 100%;
+    word-wrap: break-word;
+    z-index: 1;
+}
+
+.center .message.sent .content .message-options{
+    position: absolute;
+    top: 50%;
+    left: -60px;
+    display: flex;
+    gap: 10px;
+    z-index: 999;
+}
+
+.center .message.received .content .message-options{
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    display: none;
+    gap: 10px;
+    z-index: 999;
+}
+
+.center .message.received .content .message-options .edit-button{
+    display: none;
+}
+
+.delete-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+  }
+  
+  .delete-popup p {
+    margin-bottom: 10px;
+  }
+  
+  .delete-popup button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .delete-popup button:last-child {
+    margin-right: 0;
+    background-color: #007bff;
+  }
+  
+  .delete-popup button:hover {
+    background-color: #e60000;
+  }
+  
+  .delete-popup button:last-child:hover {
+    background-color: #0056b3;
+  }
+
+  .d-none{
+    display: none;
+  }
+  
+
+
+
+.edit{
+    z-index: 998;
+}
+
+.edit-input{
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+
+.edit-input:disabled{
+    cursor: not-allowed;
+}
+
+.save-button{
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.save-button:disabled{
+    background-color: rgba(0, 123, 255, 0.5);
+    cursor: not-allowed;
+}
+
+.save-button:hover{
+    background-color: #0056b3;
+}
+
+.center .message .content .message-options button{
+   background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    cursor: pointer;
+}
+
+.center .message p{
+    word-wrap: break-word;
+}
+
+.center .message.sent .content span{
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    width: 80px;
+}
+.center .message.received .content span{
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    width: 80px;
+}
+
+
+
+.center .received{
+    align-self: flex-start;
+}
+
+.center .received .content{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.center .received span{
+    left: 10px;
+    right: auto;
+}
+
+.center .sent{
+    align-self: flex-end;
+}
+
+.center .sent .content{
+    background-color: #007BFF;
+}
+
+.center .sent span{
+    left: auto;
+    right: 10px;
+}
+
+
+
+
+
+.bottom{
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    position: relative;
+}
+
+.bottom .previewImg{
+    position: absolute;
+    right: 50px;
+    bottom: 80px;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.bottom .previewImg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.bottom input{
+    flex: 1;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+
+.bottom input:disabled{
+    cursor: not-allowed;
+}
+
+.bottom .send-button{
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.bottom .send-button:disabled{
+    background-color: rgba(0, 123, 255, 0.5);
+    cursor: not-allowed;
+}
+
+.bottom button:hover{
+    background-color: #0056b3;
+}
+
+.bottom .icons{
+    display: flex;
+    gap: 20px;
+}
+
+.bottom .icons img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.bottom .emoji{
+    position: relative;
+}
+
+.bottom .emoji img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.bottom .emoji .emoji-picker{
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 1;
+}
+
+.bottom form{
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}

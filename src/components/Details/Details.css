@@ -1,0 +1,186 @@
+.details{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.showDetails{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.hideDetails{
+    display: none;
+}
+
+.details .user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+    position: relative;
+}
+
+.details .user h1{
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.details .user h1:hover{
+    color: rgba(255, 255, 255, 0.8);
+}
+
+ .details .user img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.details .user .user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.details .user .user-info h3{
+    font-size: 1.2rem;
+}
+
+
+
+.details .info{
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    overflow-y: auto;
+}
+.details .info::-webkit-scrollbar{
+    width: 5px;
+}
+
+.details .info::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.details .info::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.details .info .option{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.details .info .option .title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details .info .option .title img{
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.details .info .option .photos{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 20px 0 0;
+    height: 160px;
+    overflow-y: auto;
+}
+
+.details .info .option .photos::-webkit-scrollbar{
+    width: 1px;
+}
+
+.details .info .option .photos::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.details .info .option .photos::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}   
+
+.details .info .option .photos .photoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details .info .option .photos .photoItem .photoDetail{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.details .info .option .photos .photoItem .photoDetail img{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.details .info .option .photos .photoItem .photoDetail span{
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.details .info .option .photos .photoItem img{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.details .info .option .hide{
+    display: none;
+}
+
+.details .info button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(230, 74, 105, 0.553);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.details .info button:hover{
+    background-color: rgba(230, 74, 105, 0.753);
+}
+
+.details .info .logout{
+    background-color: #0056b3;
+}
+
+.details .info .logout:hover{
+    background-color: #007BFF;
+}

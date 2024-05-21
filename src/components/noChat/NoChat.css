@@ -1,0 +1,20 @@
+.noChat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;  
+    height: 100%;
+}
+
+.noChat img{
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    margin-top: -100px;
+}
+
+.noChat h1{
+    font-size: 2rem;
+    margin-top: -90px;
+}
