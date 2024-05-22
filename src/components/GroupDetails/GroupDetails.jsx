@@ -29,10 +29,9 @@ const GroupDetails = ({ details, setDetails }) => {
   const [isEditingGroup, setIsEditingGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState(groupName);
   const [newAvatar, setNewAvatar] = useState(avatar);
-    const [addMemberPopup, setAddMemberPopup] = useState(false);
-    const [user, setUser] = useState(null);
-    const [addUserLoading, setAddUserLoading] = useState(false);
-    
+  const [addMemberPopup, setAddMemberPopup] = useState(false);
+  const [user, setUser] = useState(null);
+  const [addUserLoading, setAddUserLoading] = useState(false);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "groups", groupId), (res) => {
@@ -124,8 +123,8 @@ const GroupDetails = ({ details, setDetails }) => {
     setNewAvatar(avatar);
   };
 
-    const handleAddUserSubmit = async (e) => {
-        e.preventDefault();
+  const handleAddUserSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData(e.target);
     const username = formData.get("username");
 
@@ -140,154 +139,152 @@ const GroupDetails = ({ details, setDetails }) => {
     } catch (err) {
       console.log(err);
     }
-    };
+  };
 
+  const handleAdd = async () => {
+    try {
+      setAddUserLoading(true);
+      const groupRef = doc(database, "groups", groupId);
+      const groupData = await getDoc(groupRef);
+      const groupDataVal = groupData.data();
+      if (groupDataVal.members.includes(user.id)) {
+        toast.error("User already in group");
+        setAddUserLoading(false);
+        return;
+      }
+      const members = groupDataVal.members;
+      members.push(user.id);
+      await updateDoc(groupRef, {
+        members,
+      });
+      const userGroupsRef = doc(database, "userGroups", user.id);
+      const userGroupsData = await getDoc(userGroupsRef);
+      const userGroupsDataVal = userGroupsData.data();
+      const userGroups = userGroupsDataVal.groups;
+      userGroups.push({
+        groupId: groupDataVal.groupId,
+        groupName: groupDataVal.groupName,
+        avatar: groupDataVal.avatar,
+        isSeen: false,
+        lastMessage: groupDataVal.lastMessage,
+        lastMessageSender: groupDataVal.lastMessageSender,
+        createdBy: groupDataVal.createdBy,
+        members: members,
+      });
 
-    const handleAdd = async () => {
-        try {
-            setAddUserLoading(true);
-            const groupRef = doc(database, "groups", groupId);
-            const groupData = await getDoc(groupRef);
-            const groupDataVal = groupData.data();
-            if (groupDataVal.members.includes(user.id)) {
-                toast.error("User already in group");
-                setAddUserLoading(false);
-                return;
-            }
-            const members = groupDataVal.members;
-            members.push(user.id);
-            await updateDoc(groupRef, {
-                members,
-            });
-            const userGroupsRef = doc(database, "userGroups", user.id);
-            const userGroupsData = await getDoc(userGroupsRef);
-            const userGroupsDataVal = userGroupsData.data();
-            const userGroups = userGroupsDataVal.groups;
-            userGroups.push({
-                groupId: groupDataVal.groupId,
-                groupName: groupDataVal.groupName,
-                avatar: groupDataVal.avatar,
-                isSeen: false,
-                lastMessage: groupDataVal.lastMessage,
-                lastMessageSender: groupDataVal.lastMessageSender,
-                createdBy: groupDataVal.createdBy,
-                members: members,
-            });
+      await updateDoc(userGroupsRef, {
+        groups: userGroups,
+      });
 
-            await updateDoc(userGroupsRef, {
-                groups: userGroups,
-            });
-
-            members.forEach(async (member) => {
-                if (member !== user.id) {
-                    const userGroupsRef = doc(database, "userGroups", member);
-                    const userGroupsData = await getDoc(userGroupsRef);
-                    const userGroupsDataVal = userGroupsData.data();
-                    const userGroups = userGroupsDataVal.groups;
-                    const groupIndex = userGroups.findIndex(
-                        (g) => g.groupId === groupDataVal.groupId
-                    );
-                    userGroups[groupIndex].members = members;
-                    await updateDoc(userGroupsRef, {
-                        groups: userGroups,
-                    });
-                }
-            });
-            setUser(null);
-            toast.success("User added to group successfully");
-            setAddUserLoading(false);
-          } catch (err) {
-            console.log(err);
-            toast.error("Error adding user");
-          }
-    };
-
+      members.forEach(async (member) => {
+        if (member !== user.id) {
+          const userGroupsRef = doc(database, "userGroups", member);
+          const userGroupsData = await getDoc(userGroupsRef);
+          const userGroupsDataVal = userGroupsData.data();
+          const userGroups = userGroupsDataVal.groups;
+          const groupIndex = userGroups.findIndex(
+            (g) => g.groupId === groupDataVal.groupId
+          );
+          userGroups[groupIndex].members = members;
+          await updateDoc(userGroupsRef, {
+            groups: userGroups,
+          });
+        }
+      });
+      setUser(null);
+      toast.success("User added to group successfully");
+      setAddUserLoading(false);
+    } catch (err) {
+      console.log(err);
+      toast.error("Error adding user");
+    }
+  };
 
   return (
     <>
-    <div className={`groupDetails ${details ? "showDetails" : "hideDetails"}`}>
-      <div className="user">
-        <h1 onClick={closeDetails}>x</h1>
-        <img src={newAvatar || avatar || Avatar} alt="" />
-        <div className="user-info">
-          {isEditingGroup ? (
-            <div className="edit-group">
-              <label htmlFor="newAvatar">Change Avatar</label>
-              <input
-                type="file"
-                id='image'
-                onChange={handleAvatarChange}
-                style={{ display: 'none' }}
-              />
-              <input
-                type="text"
-                value={newGroupName}
-                onChange={(e) => setNewGroupName(e.target.value)}
-                placeholder="Enter new group name"
-              />
-              <div className='buttons'>
-                <button onClick={handleGroupEditSubmit}>Save</button>
-                <button onClick={handleCancelEdit}>Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="groupInfo">
-                <h3>{groupName}</h3>
-                {currentUser.id === groupAdmin && <img src={Edit} alt="Edit" onClick={handleGroupEdit} />}
-              </div>
-              {currentUser.id === groupAdmin && <span>Admin</span>}
-            </>
-          )}
-        </div>
-      </div>
-      <div className="info">
-        <div className="option">
-          <div className="title">
-            <span>Group Members ({members.length})</span>
-            <img src={membersUp ? ArrowUp : ArrowDown} onClick={() => setMembersUp((prev) => !prev)} />
-          </div>
-          <div className={`photos ${membersUp ? "" : "hide"}`}>
-            {currentUser.id === groupAdmin && 
-              <h5 onClick={()=>setAddMemberPopup(true)}>Add Member</h5>}
-            {memberDetails && memberDetails.map((user, index) => (
-                <>
-              <div className="photoItem" key={index}>
-                <div className="photoDetail">
-                  <img src={user.avatar || Avatar} alt="" />
-                  <span>{`${user.username || "User"} ${user.id === currentUser?.id ? " (You)" : ""} ${user.id === groupAdmin ? " Admin" : ""} `}</span>
+      <div className={`groupDetails ${details ? "showDetails" : "hideDetails"}`}>
+        <div className="user">
+          <h1 onClick={closeDetails}>x</h1>
+          <img src={newAvatar || avatar || Avatar} alt="" />
+          <div className="user-info">
+            {isEditingGroup ? (
+              <div className="edit-group">
+                <label htmlFor="newAvatar">Change Avatar</label>
+                <input
+                  type="file"
+                  id='image'
+                  onChange={handleAvatarChange}
+                  style={{ display: 'none' }}
+                />
+                <input
+                  type="text"
+                  value={newGroupName}
+                  onChange={(e) => setNewGroupName(e.target.value)}
+                  placeholder="Enter new group name"
+                />
+                <div className='buttons'>
+                  <button onClick={handleGroupEditSubmit}>Save</button>
+                  <button onClick={handleCancelEdit}>Cancel</button>
                 </div>
               </div>
-                </>
-            ))}
-          </div>
-          <div className="title">
-            <span>Shared Photos</span>
-            <img src={up ? ArrowUp : ArrowDown} onClick={() => setUp((prev) => !prev)} />
-          </div>
-          <div className={`photos ${up ? "" : "hide"}`}>
-            {group && group.map((msg, index) => (
+            ) : (
               <>
-                {msg.img && (
-                  <div className="photoItem" key={index}>
-                    <div className="photoDetail">
-                      <img src={msg.img} alt="" />
-                      <span>{new Date(msg.createdAt.seconds * 1000).toLocaleDateString()}</span>
-                    </div>
-                    <img src={Download} alt="Download" onClick={() => handleDownload(msg.img)} />
-                  </div>
-                )}
+                <div className="groupInfo">
+                  <h3>{groupName}</h3>
+                  {currentUser.id === groupAdmin && <img src={Edit} alt="Edit" onClick={handleGroupEdit} />}
+                </div>
+                {currentUser.id === groupAdmin && <span>Admin</span>}
               </>
-            ))}
+            )}
           </div>
         </div>
-        <button className='logout' onClick={() => auth.signOut()}>Logout</button>
+        <div className="info">
+          <div className="option">
+            <div className="title">
+              <span>Group Members ({members.length})</span>
+              <img src={membersUp ? ArrowUp : ArrowDown} onClick={() => setMembersUp((prev) => !prev)} />
+            </div>
+            <div className={`photos ${membersUp ? "" : "hide"}`}>
+              {currentUser.id === groupAdmin &&
+                <h5 onClick={() => setAddMemberPopup(true)}>Add Member</h5>}
+              {memberDetails && memberDetails.map((user, index) => (
+                <React.Fragment key={index}>
+                  <div className="photoItem">
+                    <div className="photoDetail">
+                      <img src={user.avatar || Avatar} alt="" />
+                      <span>{`${user.username || "User"} ${user.id === currentUser?.id ? " (You)" : ""} ${user.id === groupAdmin ? " Admin" : ""} `}</span>
+                    </div>
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="title">
+              <span>Shared Photos</span>
+              <img src={up ? ArrowUp : ArrowDown} onClick={() => setUp((prev) => !prev)} alt='' />
+            </div>
+            <div className={`photos ${up ? "" : "hide"}`}>
+              {group && group.map((msg, index) => (
+                <React.Fragment key={index}>
+                  {msg.img && (
+                    <div className="photoItem">
+                      <div className="photoDetail">
+                        <img src={msg.img} alt="" />
+                        <span>{new Date(msg.createdAt.seconds * 1000).toLocaleDateString()}</span>
+                      </div>
+                      <img src={Download} alt="Download" onClick={() => handleDownload(msg.img)} />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+          <button className='logout' onClick={() => auth.signOut()}>Logout</button>
+        </div>
       </div>
-    </div>
-    {addMemberPopup && (
+      {addMemberPopup && (
         <div className="addMemberPopup">
-        <div className="popup">
-            <div className="close" onClick={()=>setAddMemberPopup(false)}>x</div>
+          <div className="popup">
+            <div className="close" onClick={() => setAddMemberPopup(false)}>x</div>
             <h2>Add Member</h2>
             <form onSubmit={handleAddUserSubmit}>
               <input
@@ -311,15 +308,11 @@ const GroupDetails = ({ details, setDetails }) => {
                 </button>
               </div>
             )}
-            {/* <input type="text" placeholder="Enter Username" />
-            <div className="popButtons">
-            <button onClick={()=>setAddMemberPopup(false)}>Cancel</button>
-            </div> */}
+          </div>
         </div>
-        </div>
-    )}
+      )}
     </>
-);
+  );
 };
 
 export default GroupDetails;

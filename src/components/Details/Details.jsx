@@ -71,22 +71,22 @@ useEffect(() => {
         <div className="option">
           <div className="title">
             <span>Shared Photos</span>
-            <img src={up ? ArrowUp : ArrowDown} onClick={()=>setUp((prev)=> !prev)}  />
+            <img src={up ? ArrowUp : ArrowDown} onClick={()=>setUp((prev)=> !prev)} alt='' />
           </div>
           <div className={`photos ${up ? "" : "hide"}`}>
            {chat && chat.map((msg, index) => (
-            <>
-            {msg.img && (
-             <div className="photoItem" key={index}>
-               <div className="photoDetail">
-                 <img src={msg.img} alt="" />
-                 <span>{new Date(msg.createdAt.seconds * 1000).toLocaleDateString()}</span>
-               </div>
-                <img src={Download} alt="" onClick={()=>handleDownload(msg.img)} />
-             </div>
-            )}
-            </>
-            ))}
+            msg.img && (
+              <React.Fragment key={index}>
+                <div className="photoItem">
+                  <div className="photoDetail">
+                    <img src={msg.img} alt="" />
+                    <span>{new Date(msg.createdAt.seconds * 1000).toLocaleDateString()}</span>
+                  </div>
+                  <img src={Download} alt="" onClick={()=>handleDownload(msg.img)} />
+                </div>
+              </React.Fragment>
+            )
+           ))}
             
           </div>
         </div>
