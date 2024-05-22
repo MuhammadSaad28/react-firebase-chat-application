@@ -78,51 +78,50 @@ const Chat = ({ setDetails }) => {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (message === "") {
-      return;
+    if (!message.trim() && !img.image) {
+        return;
     }
     let imgUrl = null;
     try {
-      if (img.image) {
-        imgUrl = await upload(img.image);
-      }
-      await updateDoc(doc(database, "chats", chatId), {
-        messages: arrayUnion({
-          senderId: currentUser.id,
-          ...(message && { text: message }),
-          createdAt: new Date(),
-          ...(imgUrl && { img: imgUrl }),
-          isSeen: false,
-        }),
-      });
-      const userIds = [currentUser.id, user.id];
-      userIds.forEach(async (id) => {
-        const userChatRef = doc(database, "userChats", id);
-        const userChatSnapshot = await getDoc(userChatRef);
-        if (userChatSnapshot.exists()) {
-          const userChatsData = userChatSnapshot.data();
-          const chatIndex = userChatsData.chats.findIndex(
-            (c) => c.chatId === chatId
-          );
-          if (chatIndex !== -1) {
-            userChatsData.chats[chatIndex].lastMessage = message;
-            userChatsData.chats[chatIndex].isSeen = 
-              id === currentUser.id ? true : false;
-            userChatsData.chats[chatIndex].updatedAt = Date.now();
-
-            await updateDoc(userChatRef, {
-              chats: userChatsData.chats,
-            });
-          }
+        if (img.image) {
+            imgUrl = await upload(img.image);
         }
-      });
-      setImg({ image: null, url: "" });
-      setMessage("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        await updateDoc(doc(database, "chats", chatId), {
+            messages: arrayUnion({
+                senderId: currentUser.id,
+                ...(message && { text: message.trim() }),
+                createdAt: new Date(),
+                ...(imgUrl && { img: imgUrl }),
+                isSeen: false,
+            }),
+        });
+        const userIds = [currentUser.id, user.id];
+        userIds.forEach(async (id) => {
+            const userChatRef = doc(database, "userChats", id);
+            const userChatSnapshot = await getDoc(userChatRef);
+            if (userChatSnapshot.exists()) {
+                const userChatsData = userChatSnapshot.data();
+                const chatIndex = userChatsData.chats.findIndex(
+                    (c) => c.chatId === chatId
+                );
+                if (chatIndex !== -1) {
+                    userChatsData.chats[chatIndex].lastMessage = message || "Image";
+                    userChatsData.chats[chatIndex].isSeen = 
+                        id === currentUser.id ? true : false;
+                    userChatsData.chats[chatIndex].updatedAt = Date.now();
 
+                    await updateDoc(userChatRef, {
+                        chats: userChatsData.chats,
+                    });
+                }
+            }
+        });
+        setImg({ image: null, url: "" });
+        setMessage("");
+    } catch (err) {
+        console.log(err);
+    }
+};
   const showDetails = () => {
     setDetails(true);
   };

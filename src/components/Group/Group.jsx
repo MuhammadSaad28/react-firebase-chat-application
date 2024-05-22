@@ -113,9 +113,9 @@ const Group = ({ setDetails }) => {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (message === "") {
+    if (!message.trim() && !img.image) {
       return;
-    }
+  }
     let imgUrl = null;
     try {
       if (img.image) {
@@ -126,7 +126,7 @@ const Group = ({ setDetails }) => {
         lastMessageSender: currentUser.id,
         messages: arrayUnion({
           senderId: currentUser.id,
-          ...(message && { text: message }),
+          ...(message && { text: message.trim()}),
           createdAt: new Date(),
           ...(imgUrl && { img: imgUrl }),
         }),
