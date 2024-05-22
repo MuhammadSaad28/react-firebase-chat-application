@@ -49,7 +49,11 @@ function Login() {
                 blocked: [],
            });
            await setDoc(doc(database, "userChats", user.user.uid), {
-              chats: [],
+            createdAt: Date.now(),  
+            chats: [],
+           }); 
+           await setDoc(doc(database, "userGroups", user.user.uid), {
+              createdAt: Date.now(),
               groups: [],
            }); 
            toast.success("Account created successfully.");
@@ -98,7 +102,7 @@ function Login() {
                         <h1>Create Account</h1>
                         <img src={avatar.url || Avatar} alt="" />
                         <label htmlFor="image">Upload an Image</label>
-                        <input type="file" id="image" style={{display:'none'}} onChange={handleAvatar} />
+                        <input type="file" accept="image/*" id="image" style={{display:'none'}} onChange={handleAvatar} />
                         <input type="text" placeholder="Username" name="signUpUsername" />
                         <input type="email" placeholder="Email" name="signUpEmail" />
                         <input type="password" placeholder="Password" name="signUpPassword" />

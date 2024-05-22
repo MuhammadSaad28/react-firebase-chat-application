@@ -1,11 +1,11 @@
-.chat{
+.group{
     flex: 2;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
 }
 
-.chat .top{
+.group .top{
     padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -14,52 +14,53 @@
     cursor: pointer;
 }
 
-.chat .top .user{
+.group .top .user{
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.chat .top .user img{
+.group .top .user img{
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.chat .top .user .user-detail{
+.group .top .user .user-detail{
     display: flex;
     flex-direction: column;
 }
 
-.chat .top .user .user-detail h2{
+.group .top .user .user-detail h2{
     font-size: 1.2rem;
     font-weight: 500;
 }
 
-.chat .top .user .user-detail p{
+.group .top .user .user-detail p{
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.5);
 }
 
-.chat .top .icons{
+.group .top .icons{
     display: flex;
     gap: 20px;
 }
 
-.chat .top .icons img{
+.group .top .icons img{
     width: 20px;
     height: 20px;
     cursor: pointer;
 }
 
-.center{
+.group .center{
     flex: 1;
     padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    z-index: 1;
 }
 
 .center::-webkit-scrollbar{
@@ -79,34 +80,63 @@
     text-align: center;
 }
 
-.center .message{
+.group .center .message{
     margin-bottom: 20px;
+    margin-top: 20px;
     max-width: 60%;
     position: relative;
     display: flex;
+    flex-direction: column;
     gap: 10px;
     position: relative;
+    z-index: 1;
 }
 
 
 
+.group .center .message img{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1;
+}
 
-.center .message .content img{
+
+
+.group .center .message .content img{
+    position: relative;
     width: 100%;
     height: 300px;
     object-fit: cover;
     border-radius: 5px;
-}
-
-.center .message .content{
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 100%;
-    word-wrap: break-word;
     z-index: 1;
 }
 
-.center .message.sent .content .message-options{
+.group .center .message .content{
+    padding: 10px;
+    /* border-radius: 5px; */
+    max-width: 100%;
+    word-wrap: break-word;
+    z-index: 1;
+    margin-left: 40px;
+    position: relative;
+}
+
+.group .center .message .title{
+    font-size: 0.7rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom: 1px solid #fff;
+    color: #ff9d1f;
+    margin-left: 40px;
+    margin-bottom: -10px;
+    padding: 5px;
+}
+
+.group .center .message.sent .content .message-options{
     position: absolute;
     top: 50%;
     left: -60px;
@@ -115,7 +145,7 @@
     z-index: 999;
 }
 
-.center .message.received .content .message-options{
+.group .center .message.received .content .message-options{
     position: absolute;
     top: 50%;
     right: -30px;
@@ -124,7 +154,7 @@
     z-index: 999;
 }
 
-.center .message.received .content .message-options .edit-button{
+.group .center .message.received .content .message-options .edit-button{
     display: none;
 }
 
@@ -211,18 +241,17 @@
     background-color: #0056b3;
 }
 
-.center .message .content .message-options button{
-   /* background-color: rgba(255, 255, 255, 0.1); */
-   background-color: transparent;
+.group .center .message .content .message-options button{
+   background-color: rgba(255, 255, 255, 0.1);
     border: none;
     cursor: pointer;
 }
 
-.center .message p{
+.group .center .message p{
     word-wrap: break-word;
 }
 
-.center .message.sent .content span{
+.group .center .message.sent .content span{
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.5);
     position: absolute;
@@ -230,12 +259,12 @@
     right: 0;
     width: 80px;
 }
-.center .message.received .content span{
+.group .center .message.received .content span{
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.5);
     position: absolute;
     bottom: -20px;
-    right: 0;
+    right: -20px;
     width: 80px;
 }
 

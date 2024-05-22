@@ -14,7 +14,7 @@ const Details = ({details,setDetails}) => {
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock, subscribeToUserChanges } = useChatData();
   const { currentUser } = useUserData();
   const [chat, setChat] = useState([]);
-  const [up, setUp] = useState(true);
+  const [up, setUp] = useState(false);
 
   useEffect(() => {
     if (user) {

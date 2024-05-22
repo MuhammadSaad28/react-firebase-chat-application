@@ -1,0 +1,379 @@
+.groupDetails{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.showDetails{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.hideDetails{
+    display: none;
+}
+
+.groupDetails .user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+    position: relative;
+}
+
+.groupDetails .user h1{
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.groupDetails .user h1:hover{
+    color: rgba(255, 255, 255, 0.8);
+}
+
+ .groupDetails .user img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.groupDetails .user .user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.groupDetails .user .user-info .edit-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.groupDetails .user .user-info .edit-group label{
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.groupDetails .user .user-info .edit-group label:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.groupDetails .user .user-info .edit-group input{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+}
+
+.groupDetails .user .user-info .edit-group .buttons{
+    display: flex;
+    gap: 10px;
+}
+
+.groupDetails .user .user-info .edit-group button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.groupDetails .user .user-info .edit-group button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.groupDetails .user .user-info h3{
+    font-size: 1.2rem;
+}
+
+.groupDetails .user .user-info img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.groupDetails .user .user-info .groupInfo{
+    display: flex;
+    gap: 10px;
+}
+
+.groupDetails .info{
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    overflow-y: auto;
+}
+.groupDetails .info::-webkit-scrollbar{
+    width: 5px;
+}
+
+.groupDetails .info::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.groupDetails .info::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.groupDetails .info .option:nth-child(1) .photos .photoItem .photoDetail span{
+    font-size: 1rem;
+    color: #fff;
+}
+
+.groupDetails .info .option:nth-child(1) .photos h5{
+    font-size: 0.9rem;
+    color: #fff;
+   width: 100%;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 0;
+    border-radius: 25px;
+}
+
+.groupDetails .info .option:nth-child(1) .photos h5:hover{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.groupDetails .info .option{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.groupDetails .info .option .title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.groupDetails .info .option .title img{
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.groupDetails .info .option .photos{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 20px 0 0;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.groupDetails .info .option .photos::-webkit-scrollbar{
+    width: 1px;
+}
+
+.groupDetails .info .option .photos::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.groupDetails .info .option .photos::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}   
+
+.groupDetails .info .option .photos .photoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.groupDetails .info .option .photos .photoItem .photoDetail{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.groupDetails .info .option .photos .photoItem .photoDetail img{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.groupDetails .info .option .photos .photoItem .photoDetail span{
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.groupDetails .info .option .photos .photoItem img{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.groupDetails .info .option .hide{
+    display: none;
+}
+
+.groupDetails .info button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(230, 74, 105, 0.553);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.groupDetails .info button:hover{
+    background-color: rgba(230, 74, 105, 0.753);
+}
+
+.groupDetails .info .logout{
+    background-color: #0056b3;
+}
+
+.groupDetails .info .logout:hover{
+    background-color: #007BFF;
+}
+
+.addMemberPopup{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+.addMemberPopup .popup{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.addMemberPopup .popup form{
+    display: flex;
+    gap: 10px;
+}
+
+.addMemberPopup .popup form input{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+}
+
+.addMemberPopup .popup form button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.addMemberPopup .popup form button img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.addMemberPopup .popup .popButtons{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.addMemberPopup .popup .users{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+}
+
+.addMemberPopup .popup .users .user{
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-start; */
+    gap: 5px;
+}
+
+.addMemberPopup .popup .users .user span{
+    color: white;
+}
+
+.addMemberPopup .popup .users .user img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.addMemberPopup .popup .users button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.addMemberPopup .popup .users button:focus{
+    outline: none;
+}
+
+.addMemberPopup .popup .users button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.addMemberPopup .popup .users button img{
+    width: 20px;
+    height: 20px;
+}
+
+.addMemberPopup .popup .close{
+    position: absolute;
+    font-size: 1.5rem;
+    right: 10px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.addMemberPopup .popup .close:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+

@@ -98,3 +98,32 @@
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
+
+.chatList .button-options{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chatList .button-options button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.chatList .button-options button:focus{
+    outline: none;
+}
+
+.chatList .button-options button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chatList .button-options button.active{
+    background-color: #007BFF;
+}
+

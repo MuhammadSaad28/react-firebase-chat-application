@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { create } from "zustand";
 import { database } from "../firebase/firebase";
 import { useUserData } from "./userData";
@@ -40,6 +40,9 @@ export const useChatData = create((set) => ({
     },
     changeBlock: ()=>{
         set((state)=>({...state, isReceiverBlocked: !state.isReceiverBlocked}))
+    },
+    resetChat: () => {
+        set({ chatId: null, user: null });
     },
     subscribeToUserChanges: (userId) => {
         const userDocRef = doc(database, "users", userId);
