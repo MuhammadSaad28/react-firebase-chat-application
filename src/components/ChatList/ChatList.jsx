@@ -20,6 +20,8 @@ const ChatList = ({ onChatSelect, setDetails }) => {
   const { changeChat, isCurrentUserBlocked, resetChat } = useChatData();
   const { changeGroup, resetGroup } = useGroupData();
   const [activeTab, setActiveTab] = useState("Chats");
+  const [selectedChatId, setSelectedChatId] = useState(null);
+const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "userChats", currentUser.id), async (res) => {
@@ -51,8 +53,10 @@ const ChatList = ({ onChatSelect, setDetails }) => {
   }, [currentUser.id]);
 
   const handleChatSelect = async (chat) => {
+    setSelectedGroupId(null);
+    setSelectedChatId(chat.chatId);
     resetGroup();
-    setDetails(false);
+    // setDetails(false);
     const userChats = chats.map(item=>{
       const {user,...chats} = item;
       return chats;
@@ -73,8 +77,10 @@ const ChatList = ({ onChatSelect, setDetails }) => {
   }
 
   const handleGroupSelect = async (group) => {
+    setSelectedChatId(null);
+    setSelectedGroupId(group.groupId);
     resetChat();
-    setDetails(false);
+    // setDetails(false);
     const userGroups = groups.map(item => item);
     const groupIndex = userGroups.findIndex(g => g.groupId === group.groupId);
     userGroups[groupIndex].isSeen = true;
@@ -108,7 +114,8 @@ const ChatList = ({ onChatSelect, setDetails }) => {
         <button className={activeTab==="Groups" ? 'active' : ''} onClick={()=>setActiveTab("Groups")}>Groups</button>
       </div>
       {activeTab==="Chats" && filteredChats && filteredChats.map((chat) => (            
-        <div className="chat-box" key={chat.chatId} onClick={() => handleChatSelect(chat)}>
+        <div className={`chat-box ${selectedChatId === chat.chatId ? 'selected' : ''}`}
+        key={chat.chatId} onClick={() => handleChatSelect(chat)}>
           {!chat?.isSeen && <span>New</span>}
           <img src={isCurrentUserBlocked ? Avatar : chat.user.avatar || Avatar} alt="" />
           <div className="chatInfo">
@@ -119,7 +126,7 @@ const ChatList = ({ onChatSelect, setDetails }) => {
       ))}
 
       {activeTab==="Groups" && filteredGroups && filteredGroups.map((group) => (            
-        <div className="chat-box" key={group.groupId} onClick={() => handleGroupSelect(group)}>
+        <div className={`chat-box ${selectedGroupId === group.groupId ? 'selected' : ''}`} key={group.groupId} onClick={() => handleGroupSelect(group)}>
           {!group?.isSeen && <span>New</span>}
           <img src={group.avatar || Avatar} alt="" />
           <div className="chatInfo">

@@ -50,14 +50,8 @@ function App() {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     };
-
-    // Set initial height
     setViewportHeight();
-
-    // Add event listener to recalculate height on window resize
     window.addEventListener('resize', setViewportHeight);
-
-    // Remove event listener on component unmount
     return () => {
       window.removeEventListener('resize', setViewportHeight);
     };
@@ -67,7 +61,7 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="chat-container">
+      <div className="chat-container" style={{maxHeight:'100vh',height:'100vh'}}>
         <div className="Loading-container">
           <img src={Loader} alt="Loading..." className="Loading" />
         </div>

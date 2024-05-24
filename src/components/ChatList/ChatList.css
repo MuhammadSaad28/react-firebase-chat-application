@@ -68,6 +68,10 @@
     /* overflow-y: auto; */
 }
 
+.chatList .chat-box.selected{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .chatList .chat-box span{
     position: absolute;
     right: 30px;
