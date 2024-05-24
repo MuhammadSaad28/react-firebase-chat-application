@@ -379,7 +379,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
         <div className="emoji">
           <img src={Emoji} alt="" onClick={() => setOpen((prev) => !prev)} />
           <div className="emoji-picker">
-            <EmojiPicker open={open} onEmojiClick={handleEmoji} />
+            <EmojiPicker open={open} onEmojiClick={handleEmoji} width={`${isSmallScreen ? "280px" : "330px"}`} height={`${isSmallScreen ? "400px" : "350px"}`} />
           </div>
         </div>
         <form onSubmit={handleSend}>
