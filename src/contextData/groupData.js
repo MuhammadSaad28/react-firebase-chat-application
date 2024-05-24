@@ -10,5 +10,5 @@ export const useGroupData = create((set) => ({
           groupName,
           avatar
      })},
-    resetGroup: () => {return set({ group: null, groupName: "",avatar:"" })},
+    resetGroup: () => {return set({ groupId: null, groupName: "",avatar:"" })},
 }));

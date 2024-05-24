@@ -11,7 +11,7 @@ import { database } from '../../firebase/firebase';
 import { useChatData } from '../../contextData/chatData';
 import { useGroupData } from '../../contextData/groupData';
 
-const ChatList = ({ onChatSelect, setDetails }) => {
+const ChatList = ({ onChatSelect }) => {
   const [plus, setPlus] = useState(false);
   const [chats, setChats] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -22,6 +22,7 @@ const ChatList = ({ onChatSelect, setDetails }) => {
   const [activeTab, setActiveTab] = useState("Chats");
   const [selectedChatId, setSelectedChatId] = useState(null);
 const [selectedGroupId, setSelectedGroupId] = useState(null);
+  
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "userChats", currentUser.id), async (res) => {
@@ -52,11 +53,23 @@ const [selectedGroupId, setSelectedGroupId] = useState(null);
     return () => unSub();
   }, [currentUser.id]);
 
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.keyCode === 27) { 
+        resetChat();
+        resetGroup();
+      }
+    };
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [resetChat, resetGroup]);
+
   const handleChatSelect = async (chat) => {
     setSelectedGroupId(null);
     setSelectedChatId(chat.chatId);
     resetGroup();
-    // setDetails(false);
     const userChats = chats.map(item=>{
       const {user,...chats} = item;
       return chats;
@@ -79,8 +92,7 @@ const [selectedGroupId, setSelectedGroupId] = useState(null);
   const handleGroupSelect = async (group) => {
     setSelectedChatId(null);
     setSelectedGroupId(group.groupId);
-    resetChat();
-    // setDetails(false);
+    resetGroup();
     const userGroups = groups.map(item => item);
     const groupIndex = userGroups.findIndex(g => g.groupId === group.groupId);
     userGroups[groupIndex].isSeen = true;

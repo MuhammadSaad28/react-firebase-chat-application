@@ -37,19 +37,19 @@ const Group = ({ details,setDetails,setShowChat }) => {
   const [editIndex, setEditIndex] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
-  // State to store user avatars and usernames
+
   const [userAvatars, setUserAvatars] = useState({});
   const [usernames, setUsernames] = useState({});
 
-  // useEffect(() => {
-  //   endRef.current.scrollIntoView({ behavior: "smooth" });
-  // }, [groupId, group?.messages]);
+  useEffect(() => {
+    endRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [groupId, group?.messages]);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "groups", groupId), (res) => {
       setGroup(res.data());
     });
-
+    setDetails(false);
     return () => unSub();
   }, [groupId]);
 
@@ -360,7 +360,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
             </React.Fragment>
           );
         })}
-        {/* <div ref={endRef}></div> */}
+        <div ref={endRef}></div>
       </div>
       <div className="bottom">
         <div className="previewImg">

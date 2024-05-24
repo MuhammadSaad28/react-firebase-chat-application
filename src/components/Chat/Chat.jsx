@@ -18,6 +18,7 @@ import { useChatData } from "../../contextData/chatData";
 import { useUserData } from "../../contextData/userData";
 import upload from "../../firebase/upload";
 import { useMediaQuery } from "react-responsive";
+import { useGroupData } from "../../contextData/groupData";
 
 const Chat = ({ setDetails, setShowChat,details }) => {  
   const [open, setOpen] = useState(false);
@@ -30,6 +31,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
     image: null,
     url: "",
   });
+  const { resetGroup } = useGroupData();
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked,resetChat } =
     useChatData();
   const { currentUser } = useUserData();
@@ -38,14 +40,15 @@ const Chat = ({ setDetails, setShowChat,details }) => {
   const [deleteIndex, setDeleteIndex] = useState(null);
   const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
 
-  // useEffect(() => {
-  //   endRef.current.scrollIntoView({ behavior: "smooth" });
-  // }, [chatId, chat?.messages]);
+  useEffect(() => {
+    endRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chatId, chat?.messages]);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "chats", chatId), (res) => {
       setChat(res.data());
     });
+    setDetails(false);
 
     return () => unSub();
   }, [chatId]);
@@ -194,9 +197,9 @@ const Chat = ({ setDetails, setShowChat,details }) => {
         <div className="user" >
         {isSmallScreen && (
           <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>{
+            resetChat();
+            resetGroup();
             setShowChat(false);
-            resetChat()
-
           }} />
         )}
           <img
@@ -316,7 +319,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
             </React.Fragment>
           );
         })}
-        {/* <div ref={endRef}></div> */}
+        <div ref={endRef}></div>
       </div>
       <div className="bottom">
         <div className="previewImg">
