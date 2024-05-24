@@ -1,70 +1,195 @@
-# Getting Started with Create React App
+QuickTalk - Chat with anyone, anytime
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Table of Contents
+Introduction
+Features
+Tech Stack
+Installation
+Usage
+Push Notifications
+Contributing
+License
+Acknowledgements
+Introduction
+QuickTalk is a modern and responsive chat application that allows users to communicate with each other in real-time. Designed with a user-friendly interface and rich features, QuickTalk ensures a seamless chat experience across all devices.
 
-## Available Scripts
+Features
+Real-time messaging
+Emoji support
+Image sharing
+Push notifications
+Responsive design
+User and group chats
+Tech Stack
+Frontend: React.js
+Backend: Firebase Firestore
+Hosting: Firebase Hosting
+Installation
+Prerequisites
+Node.js
+npm or yarn
+Firebase account
+Steps
+Clone the repository
 
-In the project directory, you can run:
+bash
+Copy code
+git clone https://github.com/MUHAMMADSAAD28/quicktalk.git
+cd quicktalk
+Install dependencies
 
-### `npm start`
+bash
+Copy code
+npm install
+# or
+yarn install
+Set up Firebase
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Create a new Firebase project at Firebase Console
+Enable Firestore Database
+Enable Firebase Authentication
+Configure environment variables
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Create a .env file in the root directory and add your Firebase configuration:
 
-### `npm test`
+env
+Copy code
+REACT_APP_FIREBASE_API_KEY=your-api-key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-auth-domain
+REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+REACT_APP_FIREBASE_APP_ID=your-app-id
+Start the development server
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+bash
+Copy code
+npm start
+# or
+yarn start
+Usage
+Register or log in to the application.
+Start chatting by selecting a user or group.
+Send messages, emojis, and images.
+Receive real-time notifications for new messages.
+Push Notifications
+Ensure your application has permission to show notifications. This is handled in your ChatPushNotification component.
 
-### `npm run build`
+Example Usage
+javascript
+Copy code
+import { useEffect, useState } from "react";
+import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { database } from "../firebase/firebase";
+import { useUserData } from "../contextData/userData";
+import Avatar from "../assets/images/avatar.png";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export const ChatPushNotification = () => {
+  const { currentUser } = useUserData();
+  const [lastMessage, setLastMessage] = useState();
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  useEffect(() => {
+    if (currentUser) {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notifications");
+        return;
+      }
+      
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          const fetchChats = async () => {
+            const chatArray = [];
+            const querySnapshot = await getDocs(collection(database, "chats"));
+            querySnapshot.forEach((doc) => {
+              const chatData = doc.data();
+              const newChatId = doc.id;
+              chatData.chatId = newChatId;
+              chatArray.push(chatData);
+            });
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+            chatArray.forEach(async (chat) => {
+              const newChatId = chat.chatId;
+              const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : "";
+              setLastMessage(lastMsg);
+              const senderId = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].senderId : "";
+            
+              if (senderId) {
+                const userChatsDoc = await getDoc(doc(database, "userChats", senderId));
+                if (userChatsDoc.exists()) {
+                  const userChatsData = userChatsDoc.data();
+                  const chats = userChatsData.chats;
+            
+                  const userDoc = await getDoc(doc(database, "users", senderId));
+                  if (userDoc.exists()) {
+                    const usersData = userDoc.data();
+                    
+                    chats.forEach(async (userChat) => {
+                      if (userChat.chatId === newChatId) {
+                        if (senderId !== currentUser?.id) {
+                          const chat = { user: usersData, ...userChat };
+            
+                          const checkDoc = await getDoc(doc(database, "userChats", userChat.receiverId));
+                          if (checkDoc.exists()) {
+                            const receiverChatsData = checkDoc.data();
+                            const receiverChats = receiverChatsData.chats;
+            
+                            const receiverChat = receiverChats.find((receiverChat) => receiverChat.chatId === newChatId);
+                            if (receiverChat) {
+                              const isSeen = receiverChat.isSeen;          
+                              if (userChat.ownUserId === currentUser?.id || userChat.receiverId === currentUser?.id) {
+                                let displayedMessage = "";
+                                if (isSeen === false && displayedMessage !== lastMsg) {
+                                  displayedMessage = lastMsg;
+                                  const tag = `${newChatId}-${lastMsg}`;
+                                  new Notification(
+                                    `New Message from ${chat.user.username || "Unknown"}`,
+                                    {
+                                      body: lastMsg || "New Message",
+                                      icon: chat.user.avatar || Avatar,
+                                      tag: tag,
+                                    }
+                                  );
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+                }
+              }
+            });
+          };
 
-### `npm run eject`
+          fetchChats();
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+          const unsubscribe = onSnapshot(collection(database, "chats"), () => {
+            fetchChats();
+          });
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+          return () => {
+            unsubscribe();
+          };
+        }
+      });
+    }
+  }, [lastMessage, currentUser]);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  return null;
+};
+Contributing
+We welcome contributions from the community. If you’d like to contribute, please follow these steps:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Fork the repository.
+Create a new branch (git checkout -b feature-branch).
+Make your changes.
+Commit your changes (git commit -m 'Add some feature').
+Push to the branch (git push origin feature-branch).
+Open a pull request.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Acknowledgements
+Thanks to the Firebase team for their awesome services.
+Emoji support by Emoji Picker React.
