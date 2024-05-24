@@ -13,6 +13,7 @@
     align-items: center;
     cursor: pointer;
 }
+    
 
 .chat .top .user{
     display: flex;
@@ -20,7 +21,24 @@
     gap: 20px;
 }
 
-.chat .top .user img{
+.back-arrow{
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.back-arrow:hover{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.5s;
+}
+
+
+
+.chat .top .user .avatar{
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -267,10 +285,6 @@
     right: 10px;
 }
 
-
-
-
-
 .bottom{
     padding: 20px;
     display: flex;
@@ -363,4 +377,117 @@
     display: flex;
     gap: 20px;
     flex: 1;
+}
+
+@media screen and (max-width: 768px){
+    .chat{
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .chat.noChat{
+        display: none;
+    }
+
+    .chat .top{
+        width: 100vw;
+        padding: 10px;
+    }
+
+    .chat .top .user{
+        gap: 10px;
+    }
+
+    .chat .top .user .avatar{
+        width: 40px;
+        height: 40px;
+    }
+
+    .chat .top .user .user-detail h2{
+        font-size: 1rem;
+    }
+
+    .chat .top .user .user-detail p{
+        font-size: 0.7rem;
+    }
+
+    .center{
+        padding: 10px;
+        /* overflow-y: auto; */
+    }
+
+    .center .message{
+        max-width: 80%;
+    }
+
+    .center .message .content{
+        padding: 5px;
+    }
+
+    .center .message .content img{
+        height: 200px;
+    }
+
+    /* .center .message .content .message-options{
+        display: none;
+    }
+
+    .center .message.sent .content .message-options{
+        display: none;
+    }
+
+    .center .message.received .content .message-options{
+        display: none;
+    }
+
+    .center .message .content .message-options button{
+        display: none;
+    } */
+
+    .center .message.sent .content span{
+        font-size: 0.7rem;
+    }
+
+    .center .message.received .content span{
+        font-size: 0.7rem;
+    }
+
+    .bottom{
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .bottom .previewImg{
+        width: 200px;
+        height: 200px;
+    }
+
+    .bottom .previewImg img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .bottom input{
+        padding: 5px;
+        width: 80%;
+    }
+
+    .bottom .send-button{
+        padding: 5px 10px;
+    }
+
+    .bottom .icons img{
+        width: 15px;
+        height: 15px;
+    }
+
+    .bottom .emoji img{
+        width: 15px;
+        height: 15px;
+    }
+    
+    
+    
 }

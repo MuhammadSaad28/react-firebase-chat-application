@@ -5,6 +5,7 @@ import Info from "../../assets/images/info.png";
 import Img from "../../assets/images/img.png";
 import Emoji from "../../assets/images/emoji.png";
 import EmojiPicker from "emoji-picker-react";
+import BackArrow from "../../assets/images/back-arrow.png";  // Add the back arrow image
 import {
   arrayUnion,
   doc,
@@ -16,8 +17,9 @@ import { database } from "../../firebase/firebase";
 import { useChatData } from "../../contextData/chatData";
 import { useUserData } from "../../contextData/userData";
 import upload from "../../firebase/upload";
+import { useMediaQuery } from "react-responsive";
 
-const Chat = ({ setDetails }) => {
+const Chat = ({ setDetails, setShowChat,details }) => {  // Add onBack prop
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState();
@@ -34,10 +36,11 @@ const Chat = ({ setDetails }) => {
   const endRef = useRef(null);
   const [editIndex, setEditIndex] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
 
-  useEffect(() => {
-    endRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [chatId, chat?.messages]);
+  // useEffect(() => {
+  //   endRef.current.scrollIntoView({ behavior: "smooth" });
+  // }, [chatId, chat?.messages]);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "chats", chatId), (res) => {
@@ -51,10 +54,6 @@ const Chat = ({ setDetails }) => {
     setMessage(message + e.emoji);
   };
 
- 
-
-  
-
   const handleImg = (e) => {
     if (e.target.files[0]) {
       setImg({
@@ -63,6 +62,14 @@ const Chat = ({ setDetails }) => {
       });
     }
   };
+
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+
+
 
   const formatDateLabel = (date) => {
     const today = new Date();
@@ -117,11 +124,13 @@ const Chat = ({ setDetails }) => {
             }
         });
         setImg({ image: null, url: "" });
+        setViewportHeight();
         setMessage("");
     } catch (err) {
         console.log(err);
     }
-};
+  };
+
   const showDetails = () => {
     setDetails(true);
   };
@@ -180,12 +189,16 @@ const Chat = ({ setDetails }) => {
   };
 
   return (
-    <div className="chat">
+    <div className={`chat ${details ? "noChat" : ""}`}>
       <div className="top" onClick={showDetails}>
-        <div className="user">
+        <div className="user" >
+        {isSmallScreen && (
+          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>setShowChat(false)} />
+        )}
           <img
             src={isCurrentUserBlocked ? Avatar : user.avatar || Avatar}
             alt="Avatar"
+            className="avatar"
           />
           <div className="user-detail">
             <h2>{user.username || "User"}</h2>
@@ -233,8 +246,7 @@ const Chat = ({ setDetails }) => {
                                   type="text"
                                   value={editMessage}
                                   onChange={(e) =>
-                                    setEditMessage(e.target.value)
-                                  }
+                                    setEditMessage(e.target.value)}
                                   className="edit-input"
                                 />
                                 <button
@@ -300,7 +312,7 @@ const Chat = ({ setDetails }) => {
             </React.Fragment>
           );
         })}
-        <div ref={endRef}></div>
+        {/* <div ref={endRef}></div> */}
       </div>
       <div className="bottom">
         <div className="previewImg">

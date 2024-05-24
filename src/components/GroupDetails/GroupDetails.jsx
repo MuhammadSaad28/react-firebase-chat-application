@@ -278,7 +278,6 @@ const GroupDetails = ({ details, setDetails }) => {
               ))}
             </div>
           </div>
-          <button className='logout' onClick={() => auth.signOut()}>Logout</button>
         </div>
       </div>
       {addMemberPopup && (

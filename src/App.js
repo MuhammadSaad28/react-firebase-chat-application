@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from 'react-responsive';
 import "./App.css";
 import Chat from "./components/Chat/Chat";
 import List from "./components/List/List";
@@ -5,7 +7,6 @@ import Details from "./components/Details/Details";
 import Login from "./components/Login/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
 import { useUserData } from "./contextData/userData";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
@@ -17,6 +18,8 @@ import Group from "./components/Group/Group";
 import GroupDetails from "./components/GroupDetails/GroupDetails";
 import { ChatPushNotification } from "./pushNotifications/ChatPushNotification";
 import { GroupPushNotification } from "./pushNotifications/GroupPushNotification";
+import Title from "./assets/images/title.png";
+import Logout from "./assets/images/logout.png";
 
 function App() {
   const { currentUser, isLoading, userInfo } = useUserData();
@@ -24,6 +27,9 @@ function App() {
   const { groupId } = useGroupData();
   const [details, setDetails] = useState(false);
   const [groupDetails, setGroupDetails] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -31,6 +37,32 @@ function App() {
     });
     return () => unSub();
   }, [userInfo]);
+
+  useEffect(() => {
+    if (chatId || groupId) {
+      setShowChat(true);
+    }
+  }, [chatId, groupId]);
+
+  useEffect(() => {
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    // Set initial height
+    setViewportHeight();
+
+    // Add event listener to recalculate height on window resize
+    window.addEventListener('resize', setViewportHeight);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', setViewportHeight);
+    };
+  }, [chatId, groupId]);
+
+  
 
   if (isLoading) {
     return (
@@ -43,12 +75,37 @@ function App() {
   }
 
   return (
+    <>
+    <div className="full-container">
+      <div className="app-title">
+      <img src={Title} alt="QuickTals" className="logo"/>
+      <h1 className="title">QuickTalk</h1>
+      </div>
+      {currentUser && (
+      <button className="logout"  onClick={()=>auth.signOut()}>
+        <img src={Logout} alt="" />
+      </button>
+      )}
+    </div>
     <div className="chat-container">
       {currentUser ? (
         <>
-          <List />
-          {chatId ? <Chat setDetails={setDetails} /> : groupId ? <Group setDetails={setGroupDetails}/> : <NoChat/>} 
-          {chatId ? <Details details={details} setDetails={setDetails} />  : groupId ? <GroupDetails details={groupDetails} setDetails={setGroupDetails} /> : null}
+          {isSmallScreen ? (
+            showChat ? (
+              <>
+                {chatId ? <Chat details={details} setDetails={setDetails} setShowChat={setShowChat} /> : groupId ? <Group details={groupDetails} setDetails={setGroupDetails} setShowChat={setShowChat} /> : <NoChat/>}
+                {chatId ? <Details details={details} setDetails={setDetails} />  : groupId ? <GroupDetails details={groupDetails} setDetails={setGroupDetails} /> : null}
+              </>
+            ) : (
+              <List onChatSelect={() => setShowChat(true)} />
+            )
+          ) : (
+            <>
+              <List />
+              {chatId ? <Chat details={details}  setDetails={setDetails} /> : groupId ? <Group setDetails={setGroupDetails}/> : <NoChat/>}
+              {chatId ? <Details  details={details} setDetails={setDetails} />  : groupId ? <GroupDetails details={groupDetails} setDetails={setGroupDetails} /> : null}
+            </>
+          )}
           <ChatPushNotification />
           <GroupPushNotification />
         </>
@@ -57,6 +114,8 @@ function App() {
       )}
       <ToastContainer position="bottom-right" />
     </div>
+    
+    </>
   );
 }
 

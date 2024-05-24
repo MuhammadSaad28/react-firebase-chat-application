@@ -5,6 +5,8 @@ import Info from "../../assets/images/info.png";
 import Img from "../../assets/images/img.png";
 import Emoji from "../../assets/images/emoji.png";
 import EmojiPicker from "emoji-picker-react";
+import BackArrow from "../../assets/images/back-arrow.png"
+import { useMediaQuery } from "react-responsive";
 import {
   arrayUnion,
   doc,
@@ -17,7 +19,7 @@ import { useUserData } from "../../contextData/userData";
 import { useGroupData } from "../../contextData/groupData";
 import upload from "../../firebase/upload";
 
-const Group = ({ setDetails }) => {
+const Group = ({ details,setDetails,setShowChat }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [group, setGroup] = useState();
@@ -25,6 +27,7 @@ const Group = ({ setDetails }) => {
   const [senderId, setSenderId] = useState();
   const [currentId, setCurrentId] = useState();
   const [sender, setSender] = useState();
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   const [img, setImg] = useState({
     image: null,
     url: "",
@@ -39,9 +42,9 @@ const Group = ({ setDetails }) => {
   const [userAvatars, setUserAvatars] = useState({});
   const [usernames, setUsernames] = useState({});
 
-  useEffect(() => {
-    endRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [groupId, group?.messages]);
+  // useEffect(() => {
+  //   endRef.current.scrollIntoView({ behavior: "smooth" });
+  // }, [groupId, group?.messages]);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(database, "groups", groupId), (res) => {
@@ -223,10 +226,13 @@ const Group = ({ setDetails }) => {
   };
 
   return (
-    <div className="group">
+    <div className={`group ${details ? "noGroup" : ""}`}>
       <div className="top" onClick={showDetails}>
         <div className="user">
-          <img src={avatar || Avatar} alt="Avatar" />
+        {isSmallScreen && (
+          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>setShowChat(false)} />
+        )}
+          <img src={avatar || Avatar} alt="Avatar" className="avatar" />
           <div className="user-detail">
             <h2>{groupName || "GroupName"}</h2>
             <p>Lorem ipsum dolor sit, amet.</p>
@@ -350,7 +356,7 @@ const Group = ({ setDetails }) => {
             </React.Fragment>
           );
         })}
-        <div ref={endRef}></div>
+        {/* <div ref={endRef}></div> */}
       </div>
       <div className="bottom">
         <div className="previewImg">
