@@ -58,6 +58,8 @@ const [selectedGroupId, setSelectedGroupId] = useState(null);
       if (event.keyCode === 27) { 
         resetChat();
         resetGroup();
+        setSelectedChatId(null);
+        setSelectedGroupId(null);
       }
     };
     document.addEventListener("keydown", handleEscapeKey);
