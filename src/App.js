@@ -20,11 +20,12 @@ import { ChatPushNotification } from "./pushNotifications/ChatPushNotification";
 import { GroupPushNotification } from "./pushNotifications/GroupPushNotification";
 import Title from "./assets/images/title.png";
 import Logout from "./assets/images/logout.png";
+import MobileLogin from "./components/Login/MobileLogin";
 
 function App() {
   const { currentUser, isLoading, userInfo } = useUserData();
-  const { chatId } = useChatData();
-  const { groupId } = useGroupData();
+  const { chatId, resetChat } = useChatData();
+  const { groupId, resetGroup } = useGroupData();
   const [details, setDetails] = useState(false);
   const [groupDetails, setGroupDetails] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -82,7 +83,11 @@ function App() {
       <h1 className="title">QuickTalk</h1>
       </div>
       {currentUser && (
-      <button className="logout"  onClick={()=>auth.signOut()}>
+      <button className="logout"  onClick={()=>{
+        resetChat();
+        resetGroup();
+        auth.signOut()
+        }}>
         <img src={Logout} alt="" />
       </button>
       )}
@@ -110,7 +115,13 @@ function App() {
           <GroupPushNotification />
         </>
       ) : (
-        <Login />
+        <>
+        {isSmallScreen ? (
+          <MobileLogin/>
+        ) : (
+          <Login />
+        )}
+        </>
       )}
       <ToastContainer position="bottom-right" />
     </div>

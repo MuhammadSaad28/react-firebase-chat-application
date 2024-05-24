@@ -9,13 +9,17 @@
   min-height: 400px;
 }
 
-.Container .SignUpContainer {
+.Container .SignUpContainer,
+.Container .SignInContainer {
   position: absolute;
   top: 0;
   height: 100%;
   transition: all 0.6s ease-in-out;
   left: 0;
   width: 50%;
+}
+
+.Container .SignUpContainer {
   opacity: 0;
   z-index: 1;
 }
@@ -27,12 +31,6 @@
 }
 
 .Container .SignInContainer {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  transition: all 0.6s ease-in-out;
-  left: 0;
-  width: 50%;
   z-index: 2;
 }
 
@@ -55,12 +53,11 @@
   margin: 10px 0;
 }
 
-.Container form img{
+.Container form img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   margin: 5px 0;
-
 }
 
 .Container form label {
@@ -136,7 +133,6 @@
 
 .Container .OverlayContainer .Overlay {
   background-color: rgba(17, 25, 40, 0.75);
-
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -200,4 +196,11 @@
   transform: translateX(20%);
 }
 
+@media screen and (max-width: 960px) {
+  .Container {
+    flex-direction: column;
+    width: 100%;
+  }
 
+ 
+}

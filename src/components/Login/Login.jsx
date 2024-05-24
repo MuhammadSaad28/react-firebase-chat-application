@@ -7,13 +7,12 @@ import { auth, database } from "../../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../firebase/upload";
 import Loader from "../../assets/gif/loader.gif";
-// import { useUserData } from "../../userData/userData";
+
 
 
 function Login() {
     const [signIn, toggle] = useState(true);
     const [loading, setLoading] = useState(false);
-    // const { isLoading } = useUserData();
     const [avatar, setAvatar] = useState({
         image: null,
         url: ""

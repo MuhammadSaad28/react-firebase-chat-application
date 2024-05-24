@@ -8,7 +8,8 @@
 }
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #030057;
+  /* background-color: #030057; */
+  background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
   height: 100vh;
   max-width: 100vw;
   overflow-x: hidden;
