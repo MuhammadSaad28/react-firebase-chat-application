@@ -61,7 +61,7 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="chat-container" style={{maxHeight:'100vh',height:'100vh'}}>
+      <div className={`chat-container ${isSmallScreen ? "full-h" : ""}`}>
         <div className="Loading-container">
           <img src={Loader} alt="Loading..." className="Loading" />
         </div>

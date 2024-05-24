@@ -114,6 +114,11 @@ body {
     max-height: calc(var(--vh, 1vh) * 90);
     width: 100vw;
   }
+
+  .chat-container.full-h{
+    height: calc(var(--vh, 1vh) * 100);
+    max-height: calc(var(--vh, 1vh) * 100);
+  }
   .chat-container .Loading-container {
     height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
