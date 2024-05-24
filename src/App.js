@@ -51,11 +51,12 @@ function App() {
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     };
     setViewportHeight();
-    window.addEventListener('resize', setViewportHeight);
-    return () => {
-      window.removeEventListener('resize', setViewportHeight);
-    };
-  }, [chatId, groupId]);
+    // window.addEventListener('resize', setViewportHeight);
+    // return () => {
+    //   window.removeEventListener('resize', setViewportHeight);
+    // };
+    // eslint-disable-next-line
+  }, []);
 
   
 
