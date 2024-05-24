@@ -161,6 +161,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
       }
     });
       setImg({ image: null, url: "" });
+      setOpen(false);
       setMessage("");
     } catch (err) {
       console.log(err);

@@ -128,6 +128,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
         });
         setImg({ image: null, url: "" });
         setViewportHeight();
+        setOpen(false);
         setMessage("");
     } catch (err) {
         console.log(err);
