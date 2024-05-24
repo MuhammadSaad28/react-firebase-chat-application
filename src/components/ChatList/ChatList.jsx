@@ -94,7 +94,7 @@ const [selectedGroupId, setSelectedGroupId] = useState(null);
   const handleGroupSelect = async (group) => {
     setSelectedChatId(null);
     setSelectedGroupId(group.groupId);
-    resetGroup();
+    resetChat();
     const userGroups = groups.map(item => item);
     const groupIndex = userGroups.findIndex(g => g.groupId === group.groupId);
     userGroups[groupIndex].isSeen = true;
