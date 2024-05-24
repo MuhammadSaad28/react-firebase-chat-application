@@ -4,7 +4,7 @@ import Avatar from '../../assets/images/avatar.png';
 import ArrowUp from '../../assets/images/arrowUp.png';
 import ArrowDown from '../../assets/images/arrowDown.png';
 import Download from '../../assets/images/download.png';
-import { auth, database } from '../../firebase/firebase';
+import {database } from '../../firebase/firebase';
 import { useChatData } from '../../contextData/chatData';
 import { useUserData } from '../../contextData/userData';
 import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
@@ -242,7 +242,7 @@ const GroupDetails = ({ details, setDetails }) => {
           <div className="option">
             <div className="title">
               <span>Group Members ({members.length})</span>
-              <img src={membersUp ? ArrowUp : ArrowDown} onClick={() => setMembersUp((prev) => !prev)} />
+              <img src={membersUp ? ArrowUp : ArrowDown} onClick={() => setMembersUp((prev) => !prev)} alt='' />
             </div>
             <div className={`photos ${membersUp ? "" : "hide"}`}>
               {currentUser.id === groupAdmin &&

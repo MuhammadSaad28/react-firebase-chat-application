@@ -1,12 +1,10 @@
 import { collection, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { database } from "../firebase/firebase";
 import { useUserData } from "../contextData/userData";
 import Avatar from "../assets/images/avatar.png";
 
 export const GroupPushNotification = () => {
-    const [lastMessage, setLastMessage] = useState();
-    const [senderId, setSenderId] = useState();
     const { currentUser } = useUserData();
   useEffect(() => {
     if(currentUser) {
@@ -27,9 +25,7 @@ export const GroupPushNotification = () => {
           const groupData = res.data();
             const newGroupId = res.id;
           const lastMsg = groupData.lastMessage;
-          setLastMessage(lastMsg);
-          const senderId = groupData.lastMessageSender;
-            setSenderId(senderId);
+          const senderId = groupData.lastMessageSender;;
           const groupMembers = groupData.members;
 
           if (senderId) {
@@ -86,6 +82,7 @@ export const GroupPushNotification = () => {
       };
     }
     }
+    // eslint-disable-next-line 
   }, []);
 
   return null;

@@ -51,7 +51,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
     setDetails(false);
 
     return () => unSub();
-  }, [chatId]);
+  }, [chatId, setDetails]);
 
   const handleEmoji = (e) => {
     setMessage(message + e.emoji);

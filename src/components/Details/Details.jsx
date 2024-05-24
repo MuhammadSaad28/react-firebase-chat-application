@@ -4,7 +4,7 @@ import Avatar from '../../assets/images/avatar.png'
 import ArrowUp from '../../assets/images/arrowUp.png'
 import ArrowDown from '../../assets/images/arrowDown.png'
 import Download from '../../assets/images/download.png'
-import { auth, database } from '../../firebase/firebase'
+import { database } from '../../firebase/firebase'
 import { useChatData } from '../../contextData/chatData'
 import { useUserData } from '../../contextData/userData'
 import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore'
@@ -21,7 +21,7 @@ const Details = ({details,setDetails}) => {
         const unsubscribe = subscribeToUserChanges(user.id);
         return () => unsubscribe();
     }
-}, [user]);
+}, [user, subscribeToUserChanges]);
 
 useEffect(() => {
   const unSub = onSnapshot(doc(database, "chats", chatId), (res) => {

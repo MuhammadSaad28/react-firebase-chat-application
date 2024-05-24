@@ -41,6 +41,8 @@ const Group = ({ details,setDetails,setShowChat }) => {
   const [userAvatars, setUserAvatars] = useState({});
   const [usernames, setUsernames] = useState({});
 
+  
+
   useEffect(() => {
     centerRef.current.scrollTop = centerRef.current.scrollHeight;
   }, [groupId, group?.messages]);
@@ -51,18 +53,9 @@ const Group = ({ details,setDetails,setShowChat }) => {
     });
     setDetails(false);
     return () => unSub();
-  }, [groupId]);
+  }, [groupId,setDetails]);
 
-  useEffect(() => {
-    if (group?.messages) {
-      group.messages.forEach((msg) => {
-        if (msg.senderId !== currentUser?.id) {
-          fetchUserAvatar(msg.senderId);
-          fetchUsername(msg.senderId);
-        }
-      });
-    }
-  }, [group]);
+  
 
   const fetchUserAvatar = async (userId) => {
     if (!userAvatars[userId]) {
@@ -87,6 +80,17 @@ const Group = ({ details,setDetails,setShowChat }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (group?.messages) {
+      group.messages.forEach((msg) => {
+        if (msg.senderId !== currentUser?.id) {
+          fetchUserAvatar(msg.senderId);
+          fetchUsername(msg.senderId);
+        }
+      });
+    }
+  }, [group]);
 
   const handleEmoji = (e) => {
     setMessage(message + e.emoji);
