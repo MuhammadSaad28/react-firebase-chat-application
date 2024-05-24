@@ -26,14 +26,13 @@ const Group = ({ details,setDetails,setShowChat }) => {
   const [editMessage, setEditMessage] = useState("");
   const [senderId, setSenderId] = useState();
   const [currentId, setCurrentId] = useState();
-  const [sender, setSender] = useState();
   const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   const [img, setImg] = useState({
     image: null,
     url: "",
   });
   const { currentUser } = useUserData();
-  const { groupId, groupName, avatar } = useGroupData();
+  const { groupId, groupName, avatar, resetGroup } = useGroupData();
   const endRef = useRef(null);
   const [editIndex, setEditIndex] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(null);
@@ -230,7 +229,12 @@ const Group = ({ details,setDetails,setShowChat }) => {
       <div className="top" onClick={showDetails}>
         <div className="user">
         {isSmallScreen && (
-          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>setShowChat(false)} />
+          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>{
+            setShowChat(false);
+            setDetails(false);
+            resetGroup();
+
+          }} />
         )}
           <img src={avatar || Avatar} alt="Avatar" className="avatar" />
           <div className="user-detail">

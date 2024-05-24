@@ -102,7 +102,7 @@ function App() {
                 {chatId ? <Details details={details} setDetails={setDetails} />  : groupId ? <GroupDetails details={groupDetails} setDetails={setGroupDetails} /> : null}
               </>
             ) : (
-              <List onChatSelect={() => setShowChat(true)} />
+              <List onChatSelect={() => setShowChat(true)} setDetails={setDetails} />
             )
           ) : (
             <>

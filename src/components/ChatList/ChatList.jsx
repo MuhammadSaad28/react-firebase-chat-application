@@ -11,7 +11,7 @@ import { database } from '../../firebase/firebase';
 import { useChatData } from '../../contextData/chatData';
 import { useGroupData } from '../../contextData/groupData';
 
-const ChatList = ({ onChatSelect }) => {
+const ChatList = ({ onChatSelect, setDetails }) => {
   const [plus, setPlus] = useState(false);
   const [chats, setChats] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -52,6 +52,7 @@ const ChatList = ({ onChatSelect }) => {
 
   const handleChatSelect = async (chat) => {
     resetGroup();
+    setDetails(false);
     const userChats = chats.map(item=>{
       const {user,...chats} = item;
       return chats;
@@ -65,7 +66,7 @@ const ChatList = ({ onChatSelect }) => {
         chats: userChats,
       }); 
       changeChat(chat.chatId, chat.user);
-      onChatSelect();  // Notify the parent component about the chat selection
+      onChatSelect();  
     } catch(err) {
       console.log(err);
     }
@@ -73,6 +74,7 @@ const ChatList = ({ onChatSelect }) => {
 
   const handleGroupSelect = async (group) => {
     resetChat();
+    setDetails(false);
     const userGroups = groups.map(item => item);
     const groupIndex = userGroups.findIndex(g => g.groupId === group.groupId);
     userGroups[groupIndex].isSeen = true;
@@ -83,7 +85,7 @@ const ChatList = ({ onChatSelect }) => {
         groups: userGroups,
       }); 
       changeGroup(group.groupId, group.groupName, group.avatar);
-      onChatSelect();  // Notify the parent component about the group selection
+      onChatSelect();  
     } catch(err) {
       console.log(err);
     }

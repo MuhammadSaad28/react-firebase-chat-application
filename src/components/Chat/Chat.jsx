@@ -19,7 +19,7 @@ import { useUserData } from "../../contextData/userData";
 import upload from "../../firebase/upload";
 import { useMediaQuery } from "react-responsive";
 
-const Chat = ({ setDetails, setShowChat,details }) => {  // Add onBack prop
+const Chat = ({ setDetails, setShowChat,details }) => {  
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState();
@@ -30,7 +30,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {  // Add onBack prop
     image: null,
     url: "",
   });
-  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } =
+  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked,resetChat } =
     useChatData();
   const { currentUser } = useUserData();
   const endRef = useRef(null);
@@ -189,11 +189,15 @@ const Chat = ({ setDetails, setShowChat,details }) => {  // Add onBack prop
   };
 
   return (
-    <div className={`chat ${details ? "noChat" : ""}`}>
+    <div className={`chat ${isSmallScreen && details ? "noChat" : ""}`}>
       <div className="top" onClick={showDetails}>
         <div className="user" >
         {isSmallScreen && (
-          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>setShowChat(false)} />
+          <img src={BackArrow} alt="Back" className="back-arrow" onClick={()=>{
+            setShowChat(false);
+            resetChat()
+
+          }} />
         )}
           <img
             src={isCurrentUserBlocked ? Avatar : user.avatar || Avatar}
