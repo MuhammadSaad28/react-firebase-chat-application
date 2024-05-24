@@ -35,13 +35,13 @@ const Chat = ({ setDetails, setShowChat,details }) => {
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked,resetChat } =
     useChatData();
   const { currentUser } = useUserData();
-  const endRef = useRef(null);
+  const centerRef = useRef(null);
   const [editIndex, setEditIndex] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(null);
   const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
-    endRef.current.scrollIntoView({ behavior: "smooth" });
+    centerRef.current.scrollTop = centerRef.current.scrollHeight;
   }, [chatId, chat?.messages]);
 
   useEffect(() => {
@@ -216,7 +216,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
           <img src={Info} alt="Info" />
         </div>
       </div>
-      <div className="center">
+      <div className="center" ref={centerRef}>
         {chat?.messages?.map((msg, index, messages) => {
           const currentDateLabel = formatDateLabel(msg.createdAt);
           const previousMessage = messages[index - 1];
@@ -319,7 +319,7 @@ const Chat = ({ setDetails, setShowChat,details }) => {
             </React.Fragment>
           );
         })}
-        <div ref={endRef}></div>
+        {/* <div ref={endRef}></div> */}
       </div>
       <div className="bottom">
         <div className="previewImg">

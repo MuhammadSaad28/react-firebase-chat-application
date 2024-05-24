@@ -33,7 +33,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
   });
   const { currentUser } = useUserData();
   const { groupId, groupName, avatar, resetGroup } = useGroupData();
-  const endRef = useRef(null);
+  const centerRef = useRef(null);
   const [editIndex, setEditIndex] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
@@ -42,7 +42,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
   const [usernames, setUsernames] = useState({});
 
   useEffect(() => {
-    endRef.current.scrollIntoView({ behavior: "smooth" });
+    centerRef.current.scrollTop = centerRef.current.scrollHeight;
   }, [groupId, group?.messages]);
 
   useEffect(() => {
@@ -246,7 +246,7 @@ const Group = ({ details,setDetails,setShowChat }) => {
           <img src={Info} alt="Info" />
         </div>
       </div>
-      <div className="center">
+      <div className="center" ref={centerRef}>
         {group?.messages?.map((msg, index, messages) => {
           const currentDateLabel = formatDateLabel(msg.createdAt);
           const previousMessage = messages[index - 1];
@@ -360,7 +360,6 @@ const Group = ({ details,setDetails,setShowChat }) => {
             </React.Fragment>
           );
         })}
-        <div ref={endRef}></div>
       </div>
       <div className="bottom">
         <div className="previewImg">
